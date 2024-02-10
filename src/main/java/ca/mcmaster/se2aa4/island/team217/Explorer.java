@@ -32,6 +32,8 @@ public class Explorer implements IExplorerRaid {
     private Boolean flyCheck = false;
     private Boolean end = false;
     private Boolean boilerPlateMission = true;
+    private String[] directions = {"N", "E", "S", "W"};
+    private int directionIndex = 0;
 
     Drone drone;
     MapRepresenter map;
@@ -57,12 +59,16 @@ public class Explorer implements IExplorerRaid {
         JSONObject decision = new JSONObject();
         JSONObject parameters = new JSONObject();
 
+
         if (boilerPlate) {
-            parameters.put("direction", "S");
+            parameters.put("direction", directions[directionIndex]);
             decision.put("action", "echo");
             action = "echo";
             decision.put("parameters", parameters);
-            boilerPlate = false;
+            directionIndex = (directionIndex + 1) % directions.length; // Move to the next direction
+            if (directionIndex == 0) { // If we have iterated over all directions
+                boilerPlate = false; // Set boilerPlate to false
+            }
             logger.info("** Decision: {}", decision.toString());
             return decision.toString();
         }
