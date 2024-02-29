@@ -39,7 +39,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        String decision = null;
+        String decision = missionControl.nextDecision();
         logger.info("** Decision: {}", decision.toString());
         return decision;
     }
